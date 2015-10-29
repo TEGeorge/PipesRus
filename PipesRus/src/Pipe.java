@@ -28,13 +28,10 @@ public class Pipe{
 
   public double getVolume() {
     double lengthInches = length * 39.370; //convert length metres to inches
-    System.out.println(lengthInches);
     double innerRadius = (outerDiameter * 0.9) /2; //inner diameter is always 90% of outer Diameter
     double outerRadius = outerDiameter /2;
     double totalVolume = Math.PI * (outerRadius * outerRadius) * lengthInches;
     double insideVolume = Math.PI * (innerRadius * innerRadius) * lengthInches;
-    System.out.println(totalVolume);
-    System.out.println(insideVolume);
     return totalVolume - insideVolume; //Get the edge volume
   }
 

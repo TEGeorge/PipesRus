@@ -5,7 +5,7 @@ public class PipeII extends Pipe
 
   public PipeII(int plastic,ArrayList<String> colours, Boolean insulated,
                     Boolean reinforced, Boolean chemicalResist,
-                    float length,float outerDiameter)
+                    double length,double outerDiameter)
   {
     super(plastic, colours, insulated,reinforced, chemicalResist, length, outerDiameter);
     valid();
