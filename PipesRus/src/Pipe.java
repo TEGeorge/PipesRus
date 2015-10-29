@@ -7,10 +7,10 @@ public class Pipe{
   protected Boolean insulated;
   protected Boolean reinforced;
   protected Boolean chemicalResist;
-  protected float length, outerDiameter;
+  protected double length, outerDiameter;
   protected IllegalArgumentException e = new IllegalArgumentException("Invalid Type");
 
-  public Pipe(int plastic, ArrayList<String> colours, Boolean insulated, Boolean reinforced, Boolean chemicalResist,float length,float outerDiameter)
+  public Pipe(int plastic, ArrayList<String> colours, Boolean insulated, Boolean reinforced, Boolean chemicalResist, double length, double outerDiameter)
   {
     this.plastic = plastic;
     this.colours = colours;
@@ -19,15 +19,40 @@ public class Pipe{
     this.chemicalResist = chemicalResist;
     this.length = length;
     this.outerDiameter = outerDiameter;
+    valid();
   }
 
-  public float volume() {
-    return 0.00f;
+  public void valid() {
+    //defined in extended
   }
 
-  public float cost()
+  public double getVolume() {
+    double lengthInches = length * 39.370; //convert length metres to inches
+    System.out.println(lengthInches);
+    double innerRadius = (outerDiameter * 0.9) /2; //inner diameter is always 90% of outer Diameter
+    double outerRadius = outerDiameter /2;
+    double totalVolume = Math.PI * (outerRadius * outerRadius) * lengthInches;
+    double insideVolume = Math.PI * (innerRadius * innerRadius) * lengthInches;
+    System.out.println(totalVolume);
+    System.out.println(insideVolume);
+    return totalVolume - insideVolume; //Get the edge volume
+  }
+
+  public double getCost()
   {
-    return 0.00f;
+    double cost = getVolume(); //cost per cubic inch of plastic
+    if(plastic==1) {cost = cost * 0.3;} // *******CHANGE TO SWITCH AND CASE******//
+    else if(plastic==2) {cost*=0.32;}
+    else if(plastic==3) {cost*=0.35;}
+    else if(plastic==4) {cost*=0.40;}
+    else if(plastic==5) {cost*=0.36;}
+    double baseCost = cost;
+    if(colours.size()==1) { cost += baseCost*0.12; }
+    else if(colours.size()==1) { cost += baseCost*0.17; }
+    if(insulated) { cost += baseCost*0.14; }
+    if(reinforced) { cost += baseCost*0.15; }
+    if(chemicalResist) { cost += baseCost*0.12; }
+    return cost; //NEEDS CONVERT TO 2 DECMINAL PLACE ***************
   }
 
   // GETS and UPDATES
@@ -51,11 +76,11 @@ public class Pipe{
     return chemicalResist;
   }
 
-  public float getLength() {
+  public double getLength() {
     return length;
   }
 
-  public float getOuterDiameter() {
+  public double getOuterDiameter() {
     return outerDiameter;
   }
 
