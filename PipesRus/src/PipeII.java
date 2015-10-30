@@ -12,7 +12,7 @@ public class PipeII extends Pipe
   }
 
   public void valid() {
-    if (insulated || reinforced || plastic > 4 || plastic < 2 || colours.size() != 2)
+    if (insulated || reinforced || plastic > 4 || plastic < 2 || colours.size() != 1)
     {
       throw e;
     }
