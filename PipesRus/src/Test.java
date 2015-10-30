@@ -16,7 +16,7 @@ public class Test{
     int n = read.nextInt();
     colours = new ArrayList<String>();
     if (n==1) { colours.add("1"); }
-    else { colours.add("1"); colours.add("2"); }
+    else if(n==2) { colours.add("1"); colours.add("2"); }
     System.out.println("True or false for insulation : ");
     insulated = read.nextBoolean();
     System.out.println("True or false for reinforced : ");
