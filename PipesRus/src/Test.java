@@ -33,8 +33,8 @@ public class Test{
   public static void createPipes()
   {
     try {
-    PipeI test = new PipeI(plastic, colours, insulated, reinforced, chemicalResist, length, outerDiameter);
-    System.out.println("made pipeI " + test.getVolume() + " & " + test.getCost());
+      PipeI test = new PipeI(plastic, colours, insulated, reinforced, chemicalResist, length, outerDiameter);
+      System.out.println("made pipeI " + test.getVolume() + " & " + test.getCost());
     }
     catch (IllegalArgumentException pipeI) {
       System.out.println("Invalid PipeI");
@@ -44,6 +44,27 @@ public class Test{
       }
       catch (IllegalArgumentException pipeII) {
         System.out.println("Invalid PipeII");
+        try {
+          PipeIII test = new PipeIII(plastic, colours, insulated, reinforced, chemicalResist, length, outerDiameter);
+          System.out.println("made pipeIII " + test.getVolume() + " & " + test.getCost());
+        }
+        catch (IllegalArgumentException pipeIII) {
+          System.out.println("Invalid PipeIII");
+          try {
+            PipeIV test = new PipeIV(plastic, colours, insulated, reinforced, chemicalResist, length, outerDiameter);
+            System.out.println("made pipeIV " + test.getVolume() + " & " + test.getCost());
+          }
+          catch (IllegalArgumentException pipeIV) {
+            System.out.println("Invalid PipeIV");
+            try {
+              PipeV test = new PipeV(plastic, colours, insulated, reinforced, chemicalResist, length, outerDiameter);
+              System.out.println("made pipeV " + test.getVolume() + " & " + test.getCost());
+            }
+            catch (IllegalArgumentException pipeV) {
+              System.out.println("We do not create a pipe to meet those specs");
+            }
+          }
+        }
       }
     }
   }
