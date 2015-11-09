@@ -8,8 +8,11 @@
  *
  * @author Dave
  */
-public class PipeCalculatorGUI extends javax.swing.JFrame {
+import java.lang.*;
+import java.util.ArrayList;
 
+public class PipeCalculatorGUI extends javax.swing.JFrame {
+    
     /**
      * Creates new form PipeCalculatorGUI
      */
@@ -40,6 +43,7 @@ public class PipeCalculatorGUI extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         ColoursCB = new javax.swing.JComboBox();
+        UpdateButton = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
@@ -111,6 +115,13 @@ public class PipeCalculatorGUI extends javax.swing.JFrame {
 
         ColoursCB.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "None", "1", "2" }));
 
+        UpdateButton.setText("Update");
+        UpdateButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                UpdateButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -118,13 +129,19 @@ public class PipeCalculatorGUI extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(ChemicalResistantCHB)
-                    .addComponent(OuterReinforcementCHB)
-                    .addComponent(InnerInsulationCHB)
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel5)
-                    .addComponent(ColoursCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(ColoursCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(UpdateButton))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(ChemicalResistantCHB)
+                            .addComponent(OuterReinforcementCHB)
+                            .addComponent(InnerInsulationCHB)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel5))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -140,7 +157,9 @@ public class PipeCalculatorGUI extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(ColoursCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(ColoursCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(UpdateButton))
                 .addContainerGap(13, Short.MAX_VALUE))
         );
 
@@ -407,6 +426,80 @@ public class PipeCalculatorGUI extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_LengthTBActionPerformed
 
+    private void UpdateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UpdateButtonActionPerformed
+
+        Double length, diameter;
+        try {
+            length = Double.parseDouble(LengthTB.getText());
+        }
+        catch (NumberFormatException e) {
+            System.out.println("Only enter numbers for length");
+            return;
+        }
+        try {
+            if (length > 0 && length < 6) { throw new IllegalArgumentException(); }
+        }
+        catch (IllegalArgumentException e) {
+            System.out.println("Length must be greater then 0 and less then or equal to 6");
+            return;
+        }
+        try {
+            diameter = Double.parseDouble(DiameterTB.getText());
+        }
+        catch (NumberFormatException e) {
+            System.out.println("Only enter numbers for diameter");
+            return;
+        }
+        int plasticGrade = PlasticGradeCB.getSelectedIndex() + 1;
+        boolean chemicalResist = ChemicalResistantCHB.isSelected();
+        boolean reinforced = OuterReinforcementCHB.isSelected();
+        boolean insulated = InnerInsulationCHB.isSelected();
+        ArrayList<String> colours = new ArrayList<String>();
+        int n = ColoursCB.getSelectedIndex();
+        if (n==1) { colours.add("1"); }
+        else if(n==2) { colours.add("1"); colours.add("2"); }
+        pipeMaker(plasticGrade, colours, insulated, reinforced, chemicalResist, length, diameter);
+    }//GEN-LAST:event_UpdateButtonActionPerformed
+    
+    private void pipeMaker(int plastic, ArrayList<String> colours, boolean insulated, boolean reinforced, boolean chemicalResist, double length, double outerDiameter)
+    {
+        try {
+      PipeI test = new PipeI(plastic, colours, insulated, reinforced, chemicalResist, length, outerDiameter);
+      System.out.println("made pipeI " + test.getVolume() + " & " + test.getCost());
+    }
+    catch (IllegalArgumentException pipeI) {
+      System.out.println("Invalid PipeI");
+      try {
+        PipeII test = new PipeII(plastic, colours, insulated, reinforced, chemicalResist, length, outerDiameter);
+        System.out.println("made pipeII " + test.getVolume() + " & " + test.getCost());
+      }
+      catch (IllegalArgumentException pipeII) {
+        System.out.println("Invalid PipeII");
+        try {
+          PipeIII test = new PipeIII(plastic, colours, insulated, reinforced, chemicalResist, length, outerDiameter);
+          System.out.println("made pipeIII " + test.getVolume() + " & " + test.getCost());
+        }
+        catch (IllegalArgumentException pipeIII) {
+          System.out.println("Invalid PipeIII");
+          try {
+            PipeIV test = new PipeIV(plastic, colours, insulated, reinforced, chemicalResist, length, outerDiameter);
+            System.out.println("made pipeIV " + test.getVolume() + " & " + test.getCost());
+          }
+          catch (IllegalArgumentException pipeIV) {
+            System.out.println("Invalid PipeIV");
+            try {
+              PipeV test = new PipeV(plastic, colours, insulated, reinforced, chemicalResist, length, outerDiameter);
+              System.out.println("made pipeV " + test.getVolume() + " & " + test.getCost());
+            }
+            catch (IllegalArgumentException pipeV) {
+              System.out.println("We do not create a pipe to meet those specs");
+            }
+          }
+        }
+      }
+    }
+  }
+    
     /**
      * @param args the command line arguments
      */
@@ -459,6 +552,7 @@ public class PipeCalculatorGUI extends javax.swing.JFrame {
     private javax.swing.JTextField QuantityTB;
     private javax.swing.JButton RemoveButton;
     private javax.swing.JTextField TotalPipesCostTF;
+    private javax.swing.JButton UpdateButton;
     private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
