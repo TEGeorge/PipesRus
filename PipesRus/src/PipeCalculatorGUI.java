@@ -12,7 +12,9 @@ import java.lang.*;
 import java.util.ArrayList;
 
 public class PipeCalculatorGUI extends javax.swing.JFrame {
-    
+
+    Pipe pipe;
+
     /**
      * Creates new form PipeCalculatorGUI
      */
@@ -51,10 +53,9 @@ public class PipeCalculatorGUI extends javax.swing.JFrame {
         QuantityTB = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         PipeCostTF = new javax.swing.JTextPane();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        PipeTypeTF = new javax.swing.JTextPane();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
+        PipeTypeTF = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         FinalOutputBoxTF = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
@@ -160,7 +161,7 @@ public class PipeCalculatorGUI extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(ColoursCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(UpdateButton))
-                .addContainerGap(13, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -177,12 +178,11 @@ public class PipeCalculatorGUI extends javax.swing.JFrame {
         PipeCostTF.setToolTipText("");
         jScrollPane1.setViewportView(PipeCostTF);
 
-        PipeTypeTF.setText("PipeType");
-        jScrollPane2.setViewportView(PipeTypeTF);
-
         jLabel9.setText("x");
 
         jLabel10.setText("=");
+
+        PipeTypeTF.setText("N/A");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -193,12 +193,12 @@ public class PipeCalculatorGUI extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel6)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
                         .addComponent(jLabel7)
                         .addGap(73, 73, 73))
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 83, Short.MAX_VALUE)
-                        .addGap(18, 18, 18)
+                        .addComponent(PipeTypeTF)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(QuantityTB, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -221,11 +221,11 @@ public class PipeCalculatorGUI extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(QuantityTB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel9)
-                        .addComponent(jLabel10)))
+                        .addComponent(jLabel10)
+                        .addComponent(PipeTypeTF)))
                 .addGap(0, 15, Short.MAX_VALUE))
         );
 
@@ -437,7 +437,7 @@ public class PipeCalculatorGUI extends javax.swing.JFrame {
             return;
         }
         try {
-            if (length > 0 && length < 6) { throw new IllegalArgumentException(); }
+            if (!(length > 0 && length <= 6)) { throw new IllegalArgumentException(); }
         }
         catch (IllegalArgumentException e) {
             System.out.println("Length must be greater then 0 and less then or equal to 6");
@@ -460,36 +460,54 @@ public class PipeCalculatorGUI extends javax.swing.JFrame {
         else if(n==2) { colours.add("1"); colours.add("2"); }
         pipeMaker(plasticGrade, colours, insulated, reinforced, chemicalResist, length, diameter);
     }//GEN-LAST:event_UpdateButtonActionPerformed
-    
+
+    private void calculateCost()
+    {
+      if(pipe!=null)
+      {
+        Integer quantity;
+        try { quantity = Integer.parseInt(QuantityTB.getText()); }
+        catch (NumberFormatException e) {
+          System.out.println("Enter a valid quantity");
+          return;
+        }
+        try {
+          if (quantity<=0)
+          { throw new IllegalArgumentException();}
+        }
+        catch (IllegalArgumentException e) {
+          System.out.println("quantity must be greater then 0");
+          return;
+        }
+        PipeCostTF.setText(String.format( "%.2f", pipe.getCost() * quantity ));
+      }
+    }
+
     private void pipeMaker(int plastic, ArrayList<String> colours, boolean insulated, boolean reinforced, boolean chemicalResist, double length, double outerDiameter)
     {
-        try {
-      PipeI test = new PipeI(plastic, colours, insulated, reinforced, chemicalResist, length, outerDiameter);
-      System.out.println("made pipeI " + test.getVolume() + " & " + test.getCost());
+    try {
+      pipe = new PipeI(plastic, colours, insulated, reinforced, chemicalResist, length, outerDiameter);
+      PipeTypeTF.setText("Pipe I");
     }
     catch (IllegalArgumentException pipeI) {
-      System.out.println("Invalid PipeI");
       try {
-        PipeII test = new PipeII(plastic, colours, insulated, reinforced, chemicalResist, length, outerDiameter);
-        System.out.println("made pipeII " + test.getVolume() + " & " + test.getCost());
+        pipe = new PipeII(plastic, colours, insulated, reinforced, chemicalResist, length, outerDiameter);
+        PipeTypeTF.setText("Pipe II");
       }
       catch (IllegalArgumentException pipeII) {
-        System.out.println("Invalid PipeII");
         try {
-          PipeIII test = new PipeIII(plastic, colours, insulated, reinforced, chemicalResist, length, outerDiameter);
-          System.out.println("made pipeIII " + test.getVolume() + " & " + test.getCost());
+          pipe = new PipeIII(plastic, colours, insulated, reinforced, chemicalResist, length, outerDiameter);
+          PipeTypeTF.setText("Pipe III");
         }
         catch (IllegalArgumentException pipeIII) {
-          System.out.println("Invalid PipeIII");
           try {
-            PipeIV test = new PipeIV(plastic, colours, insulated, reinforced, chemicalResist, length, outerDiameter);
-            System.out.println("made pipeIV " + test.getVolume() + " & " + test.getCost());
+            pipe = new PipeIV(plastic, colours, insulated, reinforced, chemicalResist, length, outerDiameter);
+            PipeTypeTF.setText("Pipe IV");
           }
           catch (IllegalArgumentException pipeIV) {
-            System.out.println("Invalid PipeIV");
             try {
-              PipeV test = new PipeV(plastic, colours, insulated, reinforced, chemicalResist, length, outerDiameter);
-              System.out.println("made pipeV " + test.getVolume() + " & " + test.getCost());
+              pipe = new PipeV(plastic, colours, insulated, reinforced, chemicalResist, length, outerDiameter);
+              PipeTypeTF.setText("Pipe V");
             }
             catch (IllegalArgumentException pipeV) {
               System.out.println("We do not create a pipe to meet those specs");
@@ -498,8 +516,9 @@ public class PipeCalculatorGUI extends javax.swing.JFrame {
         }
       }
     }
+    calculateCost();
   }
-    
+
     /**
      * @param args the command line arguments
      */
@@ -507,7 +526,7 @@ public class PipeCalculatorGUI extends javax.swing.JFrame {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -547,7 +566,7 @@ public class PipeCalculatorGUI extends javax.swing.JFrame {
     private javax.swing.JTextField LengthTB;
     private javax.swing.JCheckBox OuterReinforcementCHB;
     private javax.swing.JTextPane PipeCostTF;
-    private javax.swing.JTextPane PipeTypeTF;
+    private javax.swing.JLabel PipeTypeTF;
     private javax.swing.JComboBox PlasticGradeCB;
     private javax.swing.JTextField QuantityTB;
     private javax.swing.JButton RemoveButton;
@@ -575,7 +594,6 @@ public class PipeCalculatorGUI extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JToolBar jToolBar1;
     // End of variables declaration//GEN-END:variables
 }
