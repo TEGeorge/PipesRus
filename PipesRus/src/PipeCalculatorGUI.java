@@ -10,16 +10,19 @@
  */
 import java.lang.*;
 import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
+
 
 public class PipeCalculatorGUI extends javax.swing.JFrame {
 
     Pipe pipe;
-
+    ArrayList<Pipe> orders = new ArrayList<Pipe>();
     /**
      * Creates new form PipeCalculatorGUI
      */
     public PipeCalculatorGUI() {
         initComponents();
+        orderTable.setModel(createTableModel());
     }
 
     /**
@@ -36,6 +39,8 @@ public class PipeCalculatorGUI extends javax.swing.JFrame {
         jMenuBar2 = new javax.swing.JMenuBar();
         jMenu3 = new javax.swing.JMenu();
         jMenu4 = new javax.swing.JMenu();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
         RemoveButton = new javax.swing.JButton();
         FinishButton = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
@@ -57,10 +62,11 @@ public class PipeCalculatorGUI extends javax.swing.JFrame {
         jLabel10 = new javax.swing.JLabel();
         PipeTypeTF = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
-        FinalOutputBoxTF = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
         TotalPipesCostTF = new javax.swing.JTextField();
         jLabel13 = new javax.swing.JLabel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        orderTable = new javax.swing.JTable();
         CancelButton = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
@@ -91,20 +97,33 @@ public class PipeCalculatorGUI extends javax.swing.JFrame {
         jMenu4.setText("Edit");
         jMenuBar2.add(jMenu4);
 
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane2.setViewportView(jTable1);
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         RemoveButton.setText("Remove");
+        RemoveButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                RemoveButtonActionPerformed(evt);
+            }
+        });
 
         FinishButton.setText("Finish");
 
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         ChemicalResistantCHB.setText("Chemical Resistant");
-        ChemicalResistantCHB.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ChemicalResistantCHBActionPerformed(evt);
-            }
-        });
 
         OuterReinforcementCHB.setText("Outer Reinforcement");
 
@@ -231,17 +250,43 @@ public class PipeCalculatorGUI extends javax.swing.JFrame {
 
         jPanel4.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        FinalOutputBoxTF.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                FinalOutputBoxTFActionPerformed(evt);
-            }
-        });
-
         jLabel12.setText("Order list:");
 
         TotalPipesCostTF.setText("£");
 
         jLabel13.setText("Total Cost:");
+
+        orderTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Pipe Type", "Length", "Diameter", "Grade", "Cost"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Object.class, java.lang.Double.class, java.lang.Double.class, java.lang.Integer.class, java.lang.Double.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane3.setViewportView(orderTable);
+        if (orderTable.getColumnModel().getColumnCount() > 0) {
+            orderTable.getColumnModel().getColumn(0).setResizable(false);
+            orderTable.getColumnModel().getColumn(1).setResizable(false);
+            orderTable.getColumnModel().getColumn(2).setResizable(false);
+            orderTable.getColumnModel().getColumn(3).setResizable(false);
+            orderTable.getColumnModel().getColumn(4).setResizable(false);
+        }
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -250,15 +295,16 @@ public class PipeCalculatorGUI extends javax.swing.JFrame {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(FinalOutputBoxTF)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(jLabel12)
-                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jLabel13)
                         .addGap(18, 18, 18)
-                        .addComponent(TotalPipesCostTF, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(TotalPipesCostTF, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel12)
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
@@ -266,9 +312,9 @@ public class PipeCalculatorGUI extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel12)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(FinalOutputBoxTF, javax.swing.GroupLayout.DEFAULT_SIZE, 207, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 392, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(TotalPipesCostTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel13))
@@ -276,11 +322,6 @@ public class PipeCalculatorGUI extends javax.swing.JFrame {
         );
 
         CancelButton.setText("Cancel");
-        CancelButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                CancelButtonActionPerformed(evt);
-            }
-        });
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
@@ -288,11 +329,6 @@ public class PipeCalculatorGUI extends javax.swing.JFrame {
 
         LengthTB.setText("Click to input length");
         LengthTB.setToolTipText("");
-        LengthTB.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                LengthTBActionPerformed(evt);
-            }
-        });
 
         jLabel3.setText("Pipe Outer Diameter (inches):");
 
@@ -301,11 +337,6 @@ public class PipeCalculatorGUI extends javax.swing.JFrame {
         jLabel11.setText("Plastic Grade:");
 
         PlasticGradeCB.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Grade 1", "Grade 2", "Grade 3", "Grade 4", "Grade 5" }));
-        PlasticGradeCB.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                PlasticGradeCBActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -359,7 +390,7 @@ public class PipeCalculatorGUI extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(CancelButton, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(219, 219, 219)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(AddButton, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jLabel1)
                     .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -372,7 +403,7 @@ public class PipeCalculatorGUI extends javax.swing.JFrame {
                     .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(RemoveButton, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 100, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(FinishButton, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
@@ -402,64 +433,87 @@ public class PipeCalculatorGUI extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void FinalOutputBoxTFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FinalOutputBoxTFActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_FinalOutputBoxTFActionPerformed
-
-    private void CancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_CancelButtonActionPerformed
-
     private void AddButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddButtonActionPerformed
-        // TODO add your handling code here:
+    validPipe();
+    if (pipe==null) { return; } //Otherwise error adding null pipe
+    orders.add(pipe);
+    updateOrderList();
     }//GEN-LAST:event_AddButtonActionPerformed
 
-    private void ChemicalResistantCHBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ChemicalResistantCHBActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_ChemicalResistantCHBActionPerformed
-
-    private void PlasticGradeCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PlasticGradeCBActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_PlasticGradeCBActionPerformed
-
-    private void LengthTBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LengthTBActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_LengthTBActionPerformed
-
     private void UpdateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UpdateButtonActionPerformed
-
-        Double length, diameter;
-        try {
-            length = Double.parseDouble(LengthTB.getText());
-        }
-        catch (NumberFormatException e) {
-            System.out.println("Only enter numbers for length");
-            return;
-        }
-        try {
-            if (!(length > 0 && length <= 6)) { throw new IllegalArgumentException(); }
-        }
-        catch (IllegalArgumentException e) {
-            System.out.println("Length must be greater then 0 and less then or equal to 6");
-            return;
-        }
-        try {
-            diameter = Double.parseDouble(DiameterTB.getText());
-        }
-        catch (NumberFormatException e) {
-            System.out.println("Only enter numbers for diameter");
-            return;
-        }
-        int plasticGrade = PlasticGradeCB.getSelectedIndex() + 1;
-        boolean chemicalResist = ChemicalResistantCHB.isSelected();
-        boolean reinforced = OuterReinforcementCHB.isSelected();
-        boolean insulated = InnerInsulationCHB.isSelected();
-        ArrayList<String> colours = new ArrayList<String>();
-        int n = ColoursCB.getSelectedIndex();
-        if (n==1) { colours.add("1"); }
-        else if(n==2) { colours.add("1"); colours.add("2"); }
-        pipeMaker(plasticGrade, colours, insulated, reinforced, chemicalResist, length, diameter);
+        validPipe();
     }//GEN-LAST:event_UpdateButtonActionPerformed
+
+    private void RemoveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RemoveButtonActionPerformed
+        int i = orderTable.getSelectedRow();
+        orders.remove(i);
+        updateOrderList();
+    }//GEN-LAST:event_RemoveButtonActionPerformed
+
+    private void validPipe()
+    {
+    Double length, diameter;
+    try {
+        length = Double.parseDouble(LengthTB.getText());
+    }
+    catch (NumberFormatException e) {
+        System.out.println("Only enter numbers for length");
+        return;
+    }
+    try {
+        if (!(length > 0 && length <= 6)) { throw new IllegalArgumentException(); }
+    }
+    catch (IllegalArgumentException e) {
+        System.out.println("Length must be greater then 0 and less then or equal to 6");
+        return;
+    }
+    try {
+        diameter = Double.parseDouble(DiameterTB.getText());
+    }
+    catch (NumberFormatException e) {
+        System.out.println("Only enter numbers for diameter");
+        return;
+    }
+    int plasticGrade = PlasticGradeCB.getSelectedIndex() + 1;
+    boolean chemicalResist = ChemicalResistantCHB.isSelected();
+    boolean reinforced = OuterReinforcementCHB.isSelected();
+    boolean insulated = InnerInsulationCHB.isSelected();
+    ArrayList<String> colours = new ArrayList<String>();
+    int n = ColoursCB.getSelectedIndex();
+    if (n==1) { colours.add("1"); }
+    else if(n==2) { colours.add("1"); colours.add("2"); }
+    pipeMaker(plasticGrade, colours, insulated, reinforced, chemicalResist, length, diameter);
+    }
+
+    private DefaultTableModel createTableModel() {
+      DefaultTableModel table = new DefaultTableModel();
+      table.addColumn("Length");
+      table.addColumn("Diameter");
+      table.addColumn("Grade");
+      table.addColumn("Chemical Resistant");
+      table.addColumn("Outer Reinforcement");
+      table.addColumn("Inner Insulation");
+      table.addColumn("Colours");
+      table.addColumn("Quantity");
+      table.addColumn("Cost");
+      return table;
+    }
+
+    private void updateOrderList()
+    {
+      DefaultTableModel table = createTableModel();
+      double totalCost = 0;
+      for(Pipe order: orders)
+      {
+        table.addRow(new Object[]{order.getLength(), order.getOuterDiameter(),
+            order.getPlasticGrade(), order.getChemicalResist(), order.getReinforced(),
+            order.getInsulated(), order.getColours().size(), order.getQuantity(),
+            String.format( "%.2f", order.getCost())});
+        totalCost = totalCost + order.getCost();
+      }
+      orderTable.setModel(table);
+      TotalPipesCostTF.setText(String.format( "%.2f", totalCost));
+    }
 
     private void calculateCost()
     {
@@ -479,12 +533,14 @@ public class PipeCalculatorGUI extends javax.swing.JFrame {
           System.out.println("quantity must be greater then 0");
           return;
         }
-        PipeCostTF.setText(String.format( "%.2f", pipe.getCost() * quantity ));
+        pipe.updateQuantity(quantity);
+        PipeCostTF.setText(String.format( "%.2f", pipe.getCost()));
       }
     }
 
     private void pipeMaker(int plastic, ArrayList<String> colours, boolean insulated, boolean reinforced, boolean chemicalResist, double length, double outerDiameter)
     {
+    pipe = null;
     try {
       pipe = new PipeI(plastic, colours, insulated, reinforced, chemicalResist, length, outerDiameter);
       PipeTypeTF.setText("Pipe I");
@@ -560,7 +616,6 @@ public class PipeCalculatorGUI extends javax.swing.JFrame {
     private javax.swing.JCheckBox ChemicalResistantCHB;
     private javax.swing.JComboBox ColoursCB;
     private javax.swing.JTextField DiameterTB;
-    private javax.swing.JTextField FinalOutputBoxTF;
     private javax.swing.JButton FinishButton;
     private javax.swing.JCheckBox InnerInsulationCHB;
     private javax.swing.JTextField LengthTB;
@@ -594,6 +649,10 @@ public class PipeCalculatorGUI extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JTable jTable1;
     private javax.swing.JToolBar jToolBar1;
+    private javax.swing.JTable orderTable;
     // End of variables declaration//GEN-END:variables
 }
