@@ -1,16 +1,16 @@
 import java.util.ArrayList;
 
-public class Pipe{
+public abstract class Pipe{
 
-  protected int plastic; //could add minimum and max plastic? automatically format from super methods
-  protected ArrayList<String> colours;
+  protected int plastic;
+  protected int colours;
   protected Boolean insulated;
   protected Boolean reinforced;
   protected Boolean chemicalResist;
   protected double length, outerDiameter;
-  protected IllegalArgumentException e = new IllegalArgumentException("Invalid Type");
+  protected int quantity = 1;
 
-  public Pipe(int plastic, ArrayList<String> colours, Boolean insulated, Boolean reinforced, Boolean chemicalResist, double length, double outerDiameter)
+  public Pipe(int plastic, int colours, Boolean insulated, Boolean reinforced, Boolean chemicalResist, double length, double outerDiameter)
   {
     this.plastic = plastic;
     this.colours = colours;
@@ -22,10 +22,23 @@ public class Pipe{
     valid();
   }
 
-  public void valid() {
-    //defined in extended
+  /**
+   * Valid is defined in subclasses as it includes rules specfic for each subclass
+   */
+  public abstract void valid() throws IllegalArgumentException;
+
+  /**
+   * Return quantity variable
+   * @return quantity
+   */
+  public int getQuantity() {
+    return quantity;
   }
 
+  /**
+   * ??
+   * @return volume of materials in pipe
+   */
   public double getVolume() {
     double lengthInches = length * 39.370; //convert length metres to inches
     double innerRadius = (outerDiameter * 0.9) /2; //inner diameter is always 90% of outer Diameter
@@ -35,7 +48,8 @@ public class Pipe{
     return totalVolume - insideVolume; //Get the edge volume
   }
 
-  public double getCost()
+  //
+  public double cost()
   {
     double cost = getVolume(); //cost per cubic inch of plastic
     if(plastic==1) {cost = cost * 0.3;} // *******CHANGE TO SWITCH AND CASE******//
@@ -44,12 +58,12 @@ public class Pipe{
     else if(plastic==4) {cost*=0.40;}
     else if(plastic==5) {cost*=0.36;}
     double baseCost = cost;
-    if(colours.size()==1) { cost += baseCost*0.12; }
-    else if(colours.size()==1) { cost += baseCost*0.17; }
+    if(colours==1) { cost += baseCost*0.12; }
+    else if(colours==2) { cost += baseCost*0.17; }
     if(insulated) { cost += baseCost*0.14; }
     if(reinforced) { cost += baseCost*0.15; }
     if(chemicalResist) { cost += baseCost*0.12; }
-    return cost; //NEEDS CONVERT TO 2 DECMINAL PLACE ***************
+    return cost * quantity; //NEEDS CONVERT TO 2 DECMINAL PLACE ***************
   }
 
   // GETS and UPDATES
@@ -57,7 +71,7 @@ public class Pipe{
     return plastic;
   }
 
-  public ArrayList<String> getColours() {
+  public int getColours() {
     return colours;
   }
 
@@ -81,33 +95,7 @@ public class Pipe{
     return outerDiameter;
   }
 
-  //******** NEEDS VALIDATION IF PERFORMING UPDATES *******************//
-
-  public void updatePlasticGrade(int update) {
-    plastic = update;
-  }
-
-  public void updateColours(ArrayList<String> update) {
-    colours = update;
-  }
-
-  public void updateInsulation(Boolean update) {
-    insulated = update;
-  }
-
-  public void updateReinforced(Boolean update) {
-    reinforced = update;
-  }
-
-  public void updateChemicalResist(Boolean update) {
-    chemicalResist = update;
-  }
-
-  public void updateLength(Float update) {
-    length = update;
-  }
-
-  public void updateOuterDiameter(Float update) {
-    outerDiameter = update;
+  public void setQuantity(int newQuantity) {
+    quantity = newQuantity;
   }
 }

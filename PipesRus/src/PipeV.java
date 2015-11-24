@@ -3,7 +3,7 @@ import java.util.ArrayList;
 public class PipeV extends Pipe
 {
 
-  public PipeV(int plastic,ArrayList<String> colours, Boolean insulated,
+  public PipeV(int plastic,int colours, Boolean insulated,
                     Boolean reinforced, Boolean chemicalResist,
                     double length,double outerDiameter)
   {
@@ -11,10 +11,10 @@ public class PipeV extends Pipe
     valid();
   }
 
-  public void valid() {
-    if (!insulated || !reinforced || plastic > 2 || plastic < 6 || colours.size() == 2)
+  public void valid() throws IllegalArgumentException{
+    if (!insulated || !reinforced || plastic > 2 || plastic < 6 || colours == 2)
     {
-      throw e;
+      throw new IllegalArgumentException();
     }
   }
 }
