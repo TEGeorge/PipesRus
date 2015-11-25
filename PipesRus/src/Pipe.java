@@ -25,7 +25,7 @@ public abstract class Pipe{
   /**
    * Valid is defined in subclasses as it includes rules specfic for each subclass
    */
-  public abstract void valid() throws IllegalArgumentException;
+  protected abstract void valid() throws IllegalArgumentException;
 
   /**
    * Return quantity variable

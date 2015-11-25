@@ -438,7 +438,7 @@ public class PipeCalculatorGUI extends javax.swing.JFrame {
     Pipe pipe = createPipe();
     if (pipe==null) { return; } //Error thrown creating pipe
     orders.add(pipe);
-    updateOrderList();
+    updateOrderTable();
     }//GEN-LAST:event_AddButtonActionPerformed
 
     private void UpdateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UpdateButtonActionPerformed
@@ -449,7 +449,7 @@ public class PipeCalculatorGUI extends javax.swing.JFrame {
         int i = orderTable.getSelectedRow();
         if (i==-1) {return;}
         orders.remove(i);
-        updateOrderList();
+        updateOrderTable();
     }//GEN-LAST:event_RemoveButtonActionPerformed
 
     private void ColoursCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ColoursCBActionPerformed
@@ -465,15 +465,15 @@ public class PipeCalculatorGUI extends javax.swing.JFrame {
       try {
           length = Double.parseDouble(LengthTB.getText());
       }
-      catch (NumberFormatException e) {
-          ErrorTF.setText("Only enter numbers for length");
+      catch (NumberFormatException error) {
+          ErrorTF.setText("Error: Pipe Length Invalid");
           return null;
       }
       try {
           if (!(length >= 0.1 && length <= 6)) { throw new IllegalArgumentException(); }
       }
-      catch (IllegalArgumentException e) {
-          ErrorTF.setText("Length must be greater then 0.1 and less then or equal to 6");
+      catch (IllegalArgumentException error) {
+          ErrorTF.setText("Error: Pipe Length must be between 0.1 and 6 Metres");
           return null;
       }
       return length;
@@ -485,15 +485,15 @@ public class PipeCalculatorGUI extends javax.swing.JFrame {
       try {
           diameter = Double.parseDouble(DiameterTB.getText());
       }
-      catch (NumberFormatException e) {
-          ErrorTF.setText("Only enter numbers for diameter");
+      catch (NumberFormatException error) {
+          ErrorTF.setText("Error: Pipe Diameter Invalid");
           return null;
       }
       try {
           if (!(diameter >= 2 && diameter <= 20)) { throw new IllegalArgumentException(); }
       }
-      catch (IllegalArgumentException e) {
-          ErrorTF.setText("Diameter must be greater then 2 and less then or equal to 20");
+      catch (IllegalArgumentException error) {
+          ErrorTF.setText("Error: Pipe Diameter must be between 2 and 20 Inches");
           return null;
       }
       return diameter;
@@ -505,16 +505,16 @@ public class PipeCalculatorGUI extends javax.swing.JFrame {
       try {
         quantity = Integer.parseInt(QuantityTB.getText());
       }
-      catch (NumberFormatException e) {
-        ErrorTF.setText("Enter a valid quantity");
+      catch (NumberFormatException error) {
+        ErrorTF.setText("Error: Invalid Quantity");
         return null;
       }
       try {
-        if (quantity<=0)
+        if (!(quantity > 0 && quantity <= 200))
         { throw new IllegalArgumentException(); }
       }
-      catch (IllegalArgumentException e) {
-        ErrorTF.setText("quantity must be greater then 0");
+      catch (IllegalArgumentException error) {
+        ErrorTF.setText("Error: Quantity must be between 1 and 200");
         return null;
       }
       return quantity;
@@ -537,7 +537,7 @@ public class PipeCalculatorGUI extends javax.swing.JFrame {
       boolean insulated = InnerInsulationCHB.isSelected();
       int colours = ColoursCB.getSelectedIndex();
 
-      Pipe pipe = pipeMaker(plasticGrade, colours, insulated, reinforced, chemicalResist, length, diameter);
+      Pipe pipe = constructPipe(plasticGrade, colours, insulated, reinforced, chemicalResist, length, diameter);
 
       if (pipe==null) { return null; } //No pipe was created, stop method
 
@@ -562,7 +562,7 @@ public class PipeCalculatorGUI extends javax.swing.JFrame {
       return table;
     }
 
-    private void updateOrderList()
+    private void updateOrderTable()
     {
       DefaultTableModel table = createTableModel();
       double totalCost = 0;
@@ -592,7 +592,7 @@ public class PipeCalculatorGUI extends javax.swing.JFrame {
         orderTable.getColumn("Cost").setMinWidth(30);
     }
     
-    private Pipe pipeMaker(int plastic, int colours, boolean insulated, boolean reinforced, boolean chemicalResist, double length, double outerDiameter)
+    private Pipe constructPipe(int plastic, int colours, boolean insulated, boolean reinforced, boolean chemicalResist, double length, double outerDiameter)
     {
     Pipe pipe = null;
     try {
@@ -620,7 +620,7 @@ public class PipeCalculatorGUI extends javax.swing.JFrame {
               PipeTypeTF.setText("Pipe V");
             }
             catch (IllegalArgumentException pipeV) {
-              ErrorTF.setText("We do not create a pipe to meet those specs");
+              ErrorTF.setText("Error: We cannot create a pipe that matches these specifications");
             }
           }
         }

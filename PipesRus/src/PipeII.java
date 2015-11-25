@@ -11,7 +11,7 @@ public class PipeII extends Pipe
     valid();
   }
 
-  public void valid() throws IllegalArgumentException{
+  protected void valid() throws IllegalArgumentException{
     if (insulated || reinforced || plastic > 4 || plastic < 2 || colours != 1)
     {
       throw new IllegalArgumentException();
