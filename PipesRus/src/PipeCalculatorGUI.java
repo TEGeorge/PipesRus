@@ -1,11 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
- *
+ * Handles GUI, validation, Pipe creation and Order management
  * @author Dave
  */
 import java.lang.*;
@@ -16,8 +10,9 @@ import javax.swing.table.DefaultTableModel;
 public class PipeCalculatorGUI extends javax.swing.JFrame {
 
     ArrayList<Pipe> orders = new ArrayList<Pipe>();
+
     /**
-     * Creates new form PipeCalculatorGUI
+     * Load AWT GUI objects, Loads table model and Clears error texts
      */
     public PipeCalculatorGUI() {
         initComponents();
@@ -423,86 +418,120 @@ public class PipeCalculatorGUI extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Executed when add button is pressed.
+     * Creates pipe, adds to order list and updates the table
+     * @param evt [description]
+     */
     private void AddButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddButtonActionPerformed
     Pipe pipe = createPipe();
     if (pipe==null) { return; } //Error thrown creating pipe
     orders.add(pipe);
-    updateOrderList();
+    updateOrderTable();
     }//GEN-LAST:event_AddButtonActionPerformed
 
+    /**
+     * [UpdateButtonActionPerformed description]
+     * @param evt [description]
+     */
     private void UpdateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UpdateButtonActionPerformed
         createPipe();
     }//GEN-LAST:event_UpdateButtonActionPerformed
 
+    /**
+     * [RemoveButtonActionPerformed description]
+     * @param evt [description]
+     */
     private void RemoveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RemoveButtonActionPerformed
         int i = orderTable.getSelectedRow();
         if (i==-1) {return;}
         orders.remove(i);
-        updateOrderList();
+        updateOrderTable();
     }//GEN-LAST:event_RemoveButtonActionPerformed
 
+    /**
+     * [validLength description]
+     * @return [description]
+     */
     private Double validLength() {
       Double length;
       try {
           length = Double.parseDouble(LengthTB.getText());
       }
       catch (NumberFormatException e) {
-          ErrorTF.setText("Only enter numbers for length");
+          ErrorTF.setText("Error: Pipe Length Invalid");
           return null;
       }
       try {
           if (!(length >= 0.1 && length <= 6)) { throw new IllegalArgumentException(); }
       }
       catch (IllegalArgumentException e) {
-          ErrorTF.setText("Length must be greater then 0.1 and less then or equal to 6");
+          ErrorTF.setText("Error: Pipe Length must be between 0.1 and 6 Metres");
           return null;
       }
       return length;
     }
 
+    /**
+     * [validDiameter description]
+     * @return [description]
+     */
     private Double validDiameter()
     {
       Double diameter;
       try {
           diameter = Double.parseDouble(DiameterTB.getText());
       }
-      catch (NumberFormatException e) {
-          ErrorTF.setText("Only enter numbers for diameter");
+      catch (NumberFormatException error) {
+          ErrorTF.setText("Error: Pipe Diameter Invalid");
           return null;
       }
       try {
-          if (!(diameter >= 2 && diameter <= 20)) { throw new IllegalArgumentException(); }
+          if (!(diameter >= 2 && diameter <= 20)) 
+          { 
+            throw new IllegalArgumentException(); 
+          }
       }
-      catch (IllegalArgumentException e) {
-          ErrorTF.setText("Diameter must be greater then 2 and less then or equal to 20");
+      catch (IllegalArgumentException error) {
+          ErrorTF.setText("Error: Pipe Diameter must be between 2 and 20 Inches");
           return null;
       }
       return diameter;
     }
 
+    /**
+     * [validQuantity description]
+     * @return [description]
+     */
     private Integer validQuantity()
     {
       int quantity;
       try {
         quantity = Integer.parseInt(QuantityTB.getText());
       }
-      catch (NumberFormatException e) {
-        ErrorTF.setText("Enter a valid quantity");
+      catch (NumberFormatException error) {
+        ErrorTF.setText("Error: Invalid Quantity");
         return null;
       }
       try {
-        if (quantity<=0)
+        if (!(quantity > 0 && quantity <= 200))
         { throw new IllegalArgumentException(); }
       }
-      catch (IllegalArgumentException e) {
-        System.out.println("quantity must be greater then 0");
+      catch (IllegalArgumentException error) {
+        ErrorTF.setText("Error: Quantity must be between 1 and 200");
         return null;
       }
       return quantity;
     }
 
+    /**
+     * [createPipe description]
+     * @return [description]
+     */
     private Pipe createPipe()
     {
+      ErrorTF.setText(""); //Clear previous Errors
+
       Double diameter, length;
       length = validLength();
       diameter = validDiameter();
@@ -518,7 +547,7 @@ public class PipeCalculatorGUI extends javax.swing.JFrame {
       boolean insulated = InnerInsulationCHB.isSelected();
       int colours = ColoursCB.getSelectedIndex();
 
-      Pipe pipe = pipeMaker(plasticGrade, colours, insulated, reinforced, chemicalResist, length, diameter);
+      Pipe pipe = constructPipe(plasticGrade, colours, insulated, reinforced, chemicalResist, length, diameter);
 
       if (pipe==null) { return null; } //No pipe was created, stop method
 
@@ -529,6 +558,10 @@ public class PipeCalculatorGUI extends javax.swing.JFrame {
       return pipe;
     }
 
+    /**
+     * [createTableModel description]
+     * @return [description]
+     */
     private DefaultTableModel createTableModel() {
       DefaultTableModel table = new DefaultTableModel();
       table.addColumn("Length");
@@ -543,7 +576,10 @@ public class PipeCalculatorGUI extends javax.swing.JFrame {
       return table;
     }
 
-    private void updateOrderList()
+    /**
+     * [updateOrderTable description]
+     */
+    private void updateOrderTable()
     {
       DefaultTableModel table = createTableModel();
       double totalCost = 0;
@@ -559,41 +595,52 @@ public class PipeCalculatorGUI extends javax.swing.JFrame {
       TotalPipesCostTF.setText(String.format( "%.2f", totalCost));
     }
 
-    private Pipe pipeMaker(int plastic, int colours, boolean insulated, boolean reinforced, boolean chemicalResist, double length, double outerDiameter)
+    /**
+     * [pipeMaker description]
+     * @param   [description]
+     * @param   [description]
+     * @param   [description]
+     * @param   [description]
+     * @param   [description]
+     * @param   [description]
+     * @param   [description]
+     * @return  [description]
+     */
+    private Pipe constructPipe(int plastic, int colours, boolean insulated, boolean reinforced, boolean chemicalResist, double length, double outerDiameter)
     {
-    Pipe pipe = null;
-    try {
-      pipe = new PipeI(plastic, colours, insulated, reinforced, chemicalResist, length, outerDiameter);
-      PipeTypeTF.setText("Pipe I");
-    }
-    catch (IllegalArgumentException pipeI) {
+      Pipe pipe = null;
       try {
-        pipe = new PipeII(plastic, colours, insulated, reinforced, chemicalResist, length, outerDiameter);
-        PipeTypeTF.setText("Pipe II");
+        pipe = new PipeI(plastic, colours, insulated, reinforced, chemicalResist, length, outerDiameter);
+        PipeTypeTF.setText("Pipe I");
       }
-      catch (IllegalArgumentException pipeII) {
+      catch (IllegalArgumentException pipeI) {
         try {
-          pipe = new PipeIII(plastic, colours, insulated, reinforced, chemicalResist, length, outerDiameter);
-          PipeTypeTF.setText("Pipe III");
+          pipe = new PipeII(plastic, colours, insulated, reinforced, chemicalResist, length, outerDiameter);
+          PipeTypeTF.setText("Pipe II");
         }
-        catch (IllegalArgumentException pipeIII) {
+        catch (IllegalArgumentException pipeII) {
           try {
-            pipe = new PipeIV(plastic, colours, insulated, reinforced, chemicalResist, length, outerDiameter);
-            PipeTypeTF.setText("Pipe IV");
+            pipe = new PipeIII(plastic, colours, insulated, reinforced, chemicalResist, length, outerDiameter);
+            PipeTypeTF.setText("Pipe III");
           }
-          catch (IllegalArgumentException pipeIV) {
+          catch (IllegalArgumentException pipeIII) {
             try {
-              pipe = new PipeV(plastic, colours, insulated, reinforced, chemicalResist, length, outerDiameter);
-              PipeTypeTF.setText("Pipe V");
+              pipe = new PipeIV(plastic, colours, insulated, reinforced, chemicalResist, length, outerDiameter);
+              PipeTypeTF.setText("Pipe IV");
             }
-            catch (IllegalArgumentException pipeV) {
-              System.out.println("We do not create a pipe to meet those specs");
+            catch (IllegalArgumentException pipeIV) {
+              try {
+                pipe = new PipeV(plastic, colours, insulated, reinforced, chemicalResist, length, outerDiameter);
+                PipeTypeTF.setText("Pipe V");
+              }
+              catch (IllegalArgumentException pipeV) {
+                ErrorTF.setText("Error: We cannot create a pipe that matches these specifications");
+              }
             }
           }
         }
       }
-    }
-    return pipe;
+      return pipe;
   }
 
     /**

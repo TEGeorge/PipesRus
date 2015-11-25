@@ -1,3 +1,8 @@
+/**
+ *
+ * @Author
+ */
+
 import java.util.ArrayList;
 
 public abstract class Pipe{
@@ -10,6 +15,17 @@ public abstract class Pipe{
   protected double length, outerDiameter;
   protected int quantity = 1;
 
+  /**
+   * [Pipe description]
+   * @param   [description]
+   * @param   [description]
+   * @param   [description]
+   * @param   [description]
+   * @param   [description]
+   * @param   [description]
+   * @param   [description]
+   * @return  [description]
+   */
   public Pipe(int plastic, int colours, Boolean insulated, Boolean reinforced, Boolean chemicalResist, double length, double outerDiameter)
   {
     this.plastic = plastic;
@@ -23,9 +39,9 @@ public abstract class Pipe{
   }
 
   /**
-   * Valid is defined in subclasses as it includes rules specfic for each subclass
+   * [valid description]
    */
-  public abstract void valid() throws IllegalArgumentException;
+  protected abstract void valid() throws IllegalArgumentException;
 
   /**
    * Return quantity variable
@@ -48,7 +64,10 @@ public abstract class Pipe{
     return totalVolume - insideVolume; //Get the edge volume
   }
 
-  //
+  /**
+   * [cost description]
+   * @return [description]
+   */
   public double cost()
   {
     double cost = getVolume(); //cost per cubic inch of plastic
@@ -66,35 +85,66 @@ public abstract class Pipe{
     return cost * quantity; //NEEDS CONVERT TO 2 DECMINAL PLACE ***************
   }
 
-  // GETS and UPDATES
+  /**
+   * [getPlasticGrade description]
+   * @return [description]
+   */
   public int getPlasticGrade() {
     return plastic;
   }
 
+  /**
+   * [getColours description]
+   * @return [description]
+   */
   public int getColours() {
     return colours;
   }
 
+  /**
+   * [getInsulated description]
+   * @return [description]
+   */
   public Boolean getInsulated() {
     return insulated;
   }
 
+  /**
+   * [getReinforced description]
+   * @return [description]
+   */
   public Boolean getReinforced() {
     return reinforced;
   }
 
+  /**
+   * [getChemicalResist description]
+   * @return [description]
+   */
   public Boolean getChemicalResist() {
     return chemicalResist;
   }
 
+  /**
+   * [getLength description]
+   * @return [description]
+   */
   public double getLength() {
     return length;
   }
 
+  /**
+   * [getOuterDiameter description]
+   * @return [description]
+   */
   public double getOuterDiameter() {
     return outerDiameter;
   }
 
+  /**
+   * [setQuantity description]
+   * @param newQuantity [description]
+   */
   public void setQuantity(int newQuantity) {
     quantity = newQuantity;
   }

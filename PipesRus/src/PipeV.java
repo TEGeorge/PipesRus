@@ -1,8 +1,22 @@
+/**
+ *
+ * @Author
+ */
 import java.util.ArrayList;
 
 public class PipeV extends Pipe
 {
-
+  /**
+   * [PipeV description]
+   * @param   [description]
+   * @param   [description]
+   * @param   [description]
+   * @param   [description]
+   * @param   [description]
+   * @param   [description]
+   * @param   [description]
+   * @return  [description]
+   */
   public PipeV(int plastic,int colours, Boolean insulated,
                     Boolean reinforced, Boolean chemicalResist,
                     double length,double outerDiameter)
@@ -11,7 +25,10 @@ public class PipeV extends Pipe
     valid();
   }
 
-  public void valid() throws IllegalArgumentException{
+  /**
+   * [valid description]
+   */
+  protected void valid() throws IllegalArgumentException{
     if (!insulated || !reinforced || plastic > 2 || plastic < 6 || colours == 2)
     {
       throw new IllegalArgumentException();
