@@ -22,6 +22,7 @@ public class PipeCalculatorGUI extends javax.swing.JFrame {
     public PipeCalculatorGUI() {
         initComponents();
         orderTable.setModel(createTableModel());
+        setAllColumnWidths();
         ErrorTF.setText("");
     }
 
@@ -135,6 +136,11 @@ public class PipeCalculatorGUI extends javax.swing.JFrame {
         jLabel5.setText("Colours:");
 
         ColoursCB.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "None", "1", "2" }));
+        ColoursCB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ColoursCBActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -198,13 +204,13 @@ public class PipeCalculatorGUI extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel6)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel7)
                         .addGap(73, 73, 73))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(PipeTypeTF)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(QuantityTB, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
@@ -239,6 +245,11 @@ public class PipeCalculatorGUI extends javax.swing.JFrame {
         jLabel12.setText("Order list:");
 
         TotalPipesCostTF.setText("£");
+        TotalPipesCostTF.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TotalPipesCostTFActionPerformed(evt);
+            }
+        });
 
         jLabel13.setText("Total Cost:");
 
@@ -272,11 +283,8 @@ public class PipeCalculatorGUI extends javax.swing.JFrame {
                         .addComponent(jLabel13)
                         .addGap(18, 18, 18)
                         .addComponent(TotalPipesCostTF, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel12)
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                    .addComponent(jLabel12)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 641, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
@@ -285,8 +293,8 @@ public class PipeCalculatorGUI extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel12)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 392, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(TotalPipesCostTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel13))
@@ -369,22 +377,25 @@ public class PipeCalculatorGUI extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(CancelButton, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(AddButton, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addComponent(jLabel1)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(UpdateButton)
-                            .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(ErrorTF))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(UpdateButton))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addComponent(CancelButton, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(AddButton, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addComponent(ErrorTF, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
@@ -407,11 +418,11 @@ public class PipeCalculatorGUI extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(UpdateButton)
-                        .addGap(11, 11, 11)
-                        .addComponent(ErrorTF))
-                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(ErrorTF, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(UpdateButton)))
+                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(AddButton)
                     .addComponent(CancelButton)
@@ -440,6 +451,14 @@ public class PipeCalculatorGUI extends javax.swing.JFrame {
         orders.remove(i);
         updateOrderList();
     }//GEN-LAST:event_RemoveButtonActionPerformed
+
+    private void ColoursCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ColoursCBActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ColoursCBActionPerformed
+
+    private void TotalPipesCostTFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TotalPipesCostTFActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_TotalPipesCostTFActionPerformed
 
     private Double validLength() {
       Double length;
@@ -495,7 +514,7 @@ public class PipeCalculatorGUI extends javax.swing.JFrame {
         { throw new IllegalArgumentException(); }
       }
       catch (IllegalArgumentException e) {
-        System.out.println("quantity must be greater then 0");
+        ErrorTF.setText("quantity must be greater then 0");
         return null;
       }
       return quantity;
@@ -524,7 +543,7 @@ public class PipeCalculatorGUI extends javax.swing.JFrame {
 
       pipe.setQuantity(quantity);
 
-      PipeCostTF.setText(String.format( "%.2f", pipe.cost()));
+      PipeCostTF.setText("£" + String.format( "%.2f", pipe.cost()));
 
       return pipe;
     }
@@ -552,13 +571,27 @@ public class PipeCalculatorGUI extends javax.swing.JFrame {
         table.addRow(new Object[]{order.getLength(), order.getOuterDiameter(),
             order.getPlasticGrade(), order.getChemicalResist(), order.getReinforced(),
             order.getInsulated(), order.getColours(), order.getQuantity(),
-            String.format( "%.2f", order.cost())});
+            ("£" + String.format( "%.2f", order.cost()))});
         totalCost = totalCost + order.cost();
       }
       orderTable.setModel(table);
-      TotalPipesCostTF.setText(String.format( "%.2f", totalCost));
+      TotalPipesCostTF.setText("£" + String.format( "%.2f", totalCost));
+      setAllColumnWidths();
     }
 
+    private void setAllColumnWidths()
+    {
+        orderTable.getColumn("Length").setMinWidth(20);
+        orderTable.getColumn("Diameter").setMinWidth(40);
+        orderTable.getColumn("Grade").setMinWidth(20);
+        orderTable.getColumn("Chemical Resistant").setMinWidth(100);
+        orderTable.getColumn("Outer Reinforcement").setMinWidth(130);
+        orderTable.getColumn("Inner Insulation").setMinWidth(90);
+        orderTable.getColumn("Colours").setMinWidth(50);
+        orderTable.getColumn("Quantity").setMinWidth(60);
+        orderTable.getColumn("Cost").setMinWidth(30);
+    }
+    
     private Pipe pipeMaker(int plastic, int colours, boolean insulated, boolean reinforced, boolean chemicalResist, double length, double outerDiameter)
     {
     Pipe pipe = null;
@@ -587,7 +620,7 @@ public class PipeCalculatorGUI extends javax.swing.JFrame {
               PipeTypeTF.setText("Pipe V");
             }
             catch (IllegalArgumentException pipeV) {
-              System.out.println("We do not create a pipe to meet those specs");
+              ErrorTF.setText("We do not create a pipe to meet those specs");
             }
           }
         }
