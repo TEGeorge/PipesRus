@@ -15,7 +15,6 @@ import javax.swing.table.DefaultTableModel;
 
 public class PipeCalculatorGUI extends javax.swing.JFrame {
 
-    Pipe pipe;
     ArrayList<Pipe> orders = new ArrayList<Pipe>();
     /**
      * Creates new form PipeCalculatorGUI
@@ -248,32 +247,18 @@ public class PipeCalculatorGUI extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Pipe Type", "Length", "Diameter", "Grade", "Cost"
+                "Table Is Loaded Via Code"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.Double.class, java.lang.Double.class, java.lang.Integer.class, java.lang.Double.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                java.lang.String.class
             };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
         });
         jScrollPane3.setViewportView(orderTable);
-        if (orderTable.getColumnModel().getColumnCount() > 0) {
-            orderTable.getColumnModel().getColumn(0).setResizable(false);
-            orderTable.getColumnModel().getColumn(1).setResizable(false);
-            orderTable.getColumnModel().getColumn(2).setResizable(false);
-            orderTable.getColumnModel().getColumn(3).setResizable(false);
-            orderTable.getColumnModel().getColumn(4).setResizable(false);
-        }
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -439,14 +424,14 @@ public class PipeCalculatorGUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void AddButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddButtonActionPerformed
-    validPipe(); //
-    if (pipe==null) { return; } //Error thrown validating pipe
+    Pipe pipe = createPipe();
+    if (pipe==null) { return; } //Error thrown creating pipe
     orders.add(pipe);
     updateOrderList();
     }//GEN-LAST:event_AddButtonActionPerformed
 
     private void UpdateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UpdateButtonActionPerformed
-        validPipe();
+        createPipe();
     }//GEN-LAST:event_UpdateButtonActionPerformed
 
     private void RemoveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RemoveButtonActionPerformed
@@ -456,47 +441,92 @@ public class PipeCalculatorGUI extends javax.swing.JFrame {
         updateOrderList();
     }//GEN-LAST:event_RemoveButtonActionPerformed
 
-    private double validLength() {
+    private Double validLength() {
       Double length;
       try {
           length = Double.parseDouble(LengthTB.getText());
       }
       catch (NumberFormatException e) {
           ErrorTF.setText("Only enter numbers for length");
-          return -1;
+          return null;
       }
       try {
           if (!(length >= 0.1 && length <= 6)) { throw new IllegalArgumentException(); }
       }
       catch (IllegalArgumentException e) {
           ErrorTF.setText("Length must be greater then 0.1 and less then or equal to 6");
-          return -1;
+          return null;
       }
       return length;
     }
 
-    private void validPipe()
+    private Double validDiameter()
     {
-    try {
-        diameter = Double.parseDouble(DiameterTB.getText());
+      Double diameter;
+      try {
+          diameter = Double.parseDouble(DiameterTB.getText());
+      }
+      catch (NumberFormatException e) {
+          ErrorTF.setText("Only enter numbers for diameter");
+          return null;
+      }
+      try {
+          if (!(diameter >= 2 && diameter <= 20)) { throw new IllegalArgumentException(); }
+      }
+      catch (IllegalArgumentException e) {
+          ErrorTF.setText("Diameter must be greater then 2 and less then or equal to 20");
+          return null;
+      }
+      return diameter;
     }
-    catch (NumberFormatException e) {
-        ErrorTF.setText("Only enter numbers for diameter");
-        return;
+
+    private Integer validQuantity()
+    {
+      int quantity;
+      try {
+        quantity = Integer.parseInt(QuantityTB.getText());
+      }
+      catch (NumberFormatException e) {
+        ErrorTF.setText("Enter a valid quantity");
+        return null;
+      }
+      try {
+        if (quantity<=0)
+        { throw new IllegalArgumentException(); }
+      }
+      catch (IllegalArgumentException e) {
+        System.out.println("quantity must be greater then 0");
+        return null;
+      }
+      return quantity;
     }
-    try {
-        if (!(diameter >= 2 && diameter <= 20)) { throw new IllegalArgumentException(); }
-    }
-    catch (IllegalArgumentException e) {
-        ErrorTF.setText("Diameter must be greater then 2 and less then or equal to 20");
-        return;
-    }
-    int plasticGrade = PlasticGradeCB.getSelectedIndex() + 1;
-    boolean chemicalResist = ChemicalResistantCHB.isSelected();
-    boolean reinforced = OuterReinforcementCHB.isSelected();
-    boolean insulated = InnerInsulationCHB.isSelected();
-    int colours = ColoursCB.getSelectedIndex();
-    pipeMaker(plasticGrade, colours, insulated, reinforced, chemicalResist, length, diameter);
+
+    private Pipe createPipe()
+    {
+      Double diameter, length;
+      length = validLength();
+      diameter = validDiameter();
+      Integer quantity = validQuantity();
+
+      if(length==null || diameter == null || quantity == null) {
+        return null; //Error thrown when validating stop method
+      }
+
+      int plasticGrade = PlasticGradeCB.getSelectedIndex() + 1;
+      boolean chemicalResist = ChemicalResistantCHB.isSelected();
+      boolean reinforced = OuterReinforcementCHB.isSelected();
+      boolean insulated = InnerInsulationCHB.isSelected();
+      int colours = ColoursCB.getSelectedIndex();
+
+      Pipe pipe = pipeMaker(plasticGrade, colours, insulated, reinforced, chemicalResist, length, diameter);
+
+      if (pipe==null) { return null; } //No pipe was created, stop method
+
+      pipe.setQuantity(quantity);
+
+      PipeCostTF.setText(String.format( "%.2f", pipe.cost()));
+
+      return pipe;
     }
 
     private DefaultTableModel createTableModel() {
@@ -529,32 +559,9 @@ public class PipeCalculatorGUI extends javax.swing.JFrame {
       TotalPipesCostTF.setText(String.format( "%.2f", totalCost));
     }
 
-    private void calculateCost()
+    private Pipe pipeMaker(int plastic, int colours, boolean insulated, boolean reinforced, boolean chemicalResist, double length, double outerDiameter)
     {
-      if(pipe!=null)
-      {
-        Integer quantity;
-        try { quantity = Integer.parseInt(QuantityTB.getText()); }
-        catch (NumberFormatException e) {
-          ErrorTF.setText("Enter a valid quantity");
-          return;
-        }
-        try {
-          if (quantity<=0)
-          { throw new IllegalArgumentException(); }
-        }
-        catch (IllegalArgumentException e) {
-          System.out.println("quantity must be greater then 0");
-          return;
-        }
-        pipe.setQuantity(quantity);
-        PipeCostTF.setText(String.format( "%.2f", pipe.cost()));
-      }
-    }
-
-    private void pipeMaker(int plastic, int colours, boolean insulated, boolean reinforced, boolean chemicalResist, double length, double outerDiameter)
-    {
-    pipe = null;
+    Pipe pipe = null;
     try {
       pipe = new PipeI(plastic, colours, insulated, reinforced, chemicalResist, length, outerDiameter);
       PipeTypeTF.setText("Pipe I");
@@ -586,7 +593,7 @@ public class PipeCalculatorGUI extends javax.swing.JFrame {
         }
       }
     }
-    calculateCost();
+    return pipe;
   }
 
     /**
