@@ -522,6 +522,8 @@ public class PipeCalculatorGUI extends javax.swing.JFrame {
 
     private Pipe createPipe()
     {
+        ErrorTF.setText("");
+        
       Double diameter, length;
       length = validLength();
       diameter = validDiameter();
