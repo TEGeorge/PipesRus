@@ -1,12 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
- *
- * @author Dave
+ * This class handles all GUI elements, validation and order managment
+ * @author UP719079 & UP
  */
 import java.lang.*;
 import java.util.ArrayList;
@@ -16,6 +10,7 @@ import javax.swing.table.DefaultTableModel;
 public class PipeCalculatorGUI extends javax.swing.JFrame {
 
     ArrayList<Pipe> orders = new ArrayList<Pipe>();
+
     /**
      * Creates new form PipeCalculatorGUI
      */
@@ -434,18 +429,36 @@ public class PipeCalculatorGUI extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void AddButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddButtonActionPerformed
+    /**
+     * The Add GUI button, executed on press
+     * Attempts to create a pipe, adds it to the orders and updates the table
+     * @param evt [description]
+     */
+    private void AddButtonActionPerformed(java.awt.event.ActionEvent evt)
+    {//GEN-FIRST:event_AddButtonActionPerformed
     Pipe pipe = createPipe();
     if (pipe==null) { return; } //Error thrown creating pipe
     orders.add(pipe);
     updateOrderTable();
     }//GEN-LAST:event_AddButtonActionPerformed
 
-    private void UpdateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UpdateButtonActionPerformed
+    /**
+     * The Update GUI button, executed on press
+     * Attempts to create a new pipe
+     * @param evt [description]
+     */
+    private void UpdateButtonActionPerformed(java.awt.event.ActionEvent evt)
+    {//GEN-FIRST:event_UpdateButtonActionPerformed
         createPipe();
     }//GEN-LAST:event_UpdateButtonActionPerformed
 
-    private void RemoveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RemoveButtonActionPerformed
+    /**
+     * The Remove GUI Button, executed on press
+     * Removes the selected Pipe from table and orders
+     * @param evt [description]
+     */
+    private void RemoveButtonActionPerformed(java.awt.event.ActionEvent evt)
+    {//GEN-FIRST:event_RemoveButtonActionPerformed
         int i = orderTable.getSelectedRow();
         if (i==-1) {return;}
         orders.remove(i);
@@ -460,7 +473,12 @@ public class PipeCalculatorGUI extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_TotalPipesCostTFActionPerformed
 
-    private Double validLength() {
+    /**
+     * Performs validation on length
+     * @return Double if valid, NULL if invalid
+     */
+    private Double validLength()
+    {
       Double length;
       try {
           length = Double.parseDouble(LengthTB.getText());
@@ -479,6 +497,10 @@ public class PipeCalculatorGUI extends javax.swing.JFrame {
       return length;
     }
 
+    /**
+     * Performs validation on diameter
+     * @return Double if valid, NULL if invalid
+     */
     private Double validDiameter()
     {
       Double diameter;
@@ -499,6 +521,10 @@ public class PipeCalculatorGUI extends javax.swing.JFrame {
       return diameter;
     }
 
+    /**
+     * Performs validation on quantity
+     * @return Integer if valid, NULL if invalid
+     */
     private Integer validQuantity()
     {
       int quantity;
@@ -520,10 +546,15 @@ public class PipeCalculatorGUI extends javax.swing.JFrame {
       return quantity;
     }
 
+    /**
+     * Creates a Valid Pipe
+     * Validates Inputs, create pipe, output costs/details
+     * @return Pipe Object, NULL if Invalid
+     */
     private Pipe createPipe()
     {
-        ErrorTF.setText("");
-        
+      ErrorTF.setText(""); //Clear text of any previous errors
+
       Double diameter, length;
       length = validLength();
       diameter = validDiameter();
@@ -550,6 +581,10 @@ public class PipeCalculatorGUI extends javax.swing.JFrame {
       return pipe;
     }
 
+    /**
+     * Add table model (Columns)
+     * @return DefaultTableModel with Columns added
+     */
     private DefaultTableModel createTableModel() {
       DefaultTableModel table = new DefaultTableModel();
       table.addColumn("Length");
@@ -564,6 +599,9 @@ public class PipeCalculatorGUI extends javax.swing.JFrame {
       return table;
     }
 
+    /**
+     * Refresh table and populate with Order List
+     */
     private void updateOrderTable()
     {
       DefaultTableModel table = createTableModel();
@@ -581,6 +619,9 @@ public class PipeCalculatorGUI extends javax.swing.JFrame {
       setAllColumnWidths();
     }
 
+    /**
+     * Defines width of colomns on table
+     */
     private void setAllColumnWidths()
     {
         orderTable.getColumn("Length").setMinWidth(20);
@@ -593,7 +634,18 @@ public class PipeCalculatorGUI extends javax.swing.JFrame {
         orderTable.getColumn("Quantity").setMinWidth(60);
         orderTable.getColumn("Cost").setMinWidth(30);
     }
-    
+
+    /**
+     * Attempts to Construct a Pipe based upon specfications
+     * @param   int plastic grade
+     * @param   int colours
+     * @param   boolean inner insulation
+     * @param   boolean outer reinforcement
+     * @param   boolean chemical Resistance
+     * @param   double length
+     * @param   double Outer Diameter
+     * @return  object Pipe or NULL if no valid pipe
+     */
     private Pipe constructPipe(int plastic, int colours, boolean insulated, boolean reinforced, boolean chemicalResist, double length, double outerDiameter)
     {
     Pipe pipe = null;

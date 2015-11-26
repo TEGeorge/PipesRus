@@ -1,3 +1,8 @@
+/**
+ * Abstract class Pipe
+ * @author UP719079 & UP
+ */
+
 import java.util.ArrayList;
 
 public abstract class Pipe{
@@ -10,6 +15,18 @@ public abstract class Pipe{
   protected double length, outerDiameter;
   protected int quantity = 1;
 
+  /**
+   * Abstract class Pipe
+   * Calculates cost and volume
+   * Valid method is executed in constructor
+   * @param   int plastic grade
+   * @param   int number of colours
+   * @param   boolean inner insulated
+   * @param   boolean reinforced
+   * @param   boolean chemical resistant
+   * @param   double pipe length
+   * @param   double outer diameter
+   */
   public Pipe(int plastic, int colours, Boolean insulated, Boolean reinforced, Boolean chemicalResist, double length, double outerDiameter)
   {
     this.plastic = plastic;
@@ -23,21 +40,22 @@ public abstract class Pipe{
   }
 
   /**
-   * Valid is defined in subclasses as it includes rules specfic for each subclass
+   * Valid is a abstract method defined in subclasses
+   * It will throw an exception if Pipe is not valid
    */
   protected abstract void valid() throws IllegalArgumentException;
 
   /**
-   * Return quantity variable
-   * @return quantity
+   * Return quantity int
+   * @return int quantity
    */
   public int getQuantity() {
     return quantity;
   }
 
   /**
-   * ??
-   * @return volume of materials in pipe
+   * Return volume double
+   * @return double volume
    */
   public double getVolume() {
     double lengthInches = length * 39.370; //convert length metres to inches
@@ -48,7 +66,10 @@ public abstract class Pipe{
     return totalVolume - insideVolume; //Get the edge volume
   }
 
-  //
+  /**
+   * Calculate total cost of the pipe based upon specfications
+   * @return double cost
+   */
   public double cost()
   {
     double cost = getVolume(); //cost per cubic inch of plastic
@@ -63,38 +84,69 @@ public abstract class Pipe{
     if(insulated) { cost += baseCost*0.14; }
     if(reinforced) { cost += baseCost*0.15; }
     if(chemicalResist) { cost += baseCost*0.12; }
-    return cost * quantity; //NEEDS CONVERT TO 2 DECMINAL PLACE ***************
+    return cost * quantity;
   }
 
-  // GETS and UPDATES
+  /**
+   * Get Plastic Grade
+   * @return int plastic
+   */
   public int getPlasticGrade() {
     return plastic;
   }
 
+  /**
+   * Get amount of colours
+   * @return int colours
+   */
   public int getColours() {
     return colours;
   }
 
+  /**
+   * Is pipe inner insulated
+   * @return boolean inner insulated
+   */
   public Boolean getInsulated() {
     return insulated;
   }
 
+  /**
+   * Is pipe outer reinforcement
+   * @return boolean outer reinforcement
+   */
   public Boolean getReinforced() {
     return reinforced;
   }
 
+  /**
+   * Is pipe chemical resistant
+   * @return boolean chemical resistant
+   */
   public Boolean getChemicalResist() {
     return chemicalResist;
   }
 
+  /**
+   * Get pipe length
+   * @return int length
+   */
   public double getLength() {
     return length;
   }
 
+  /**
+   * Get outer diameter
+   * @return int outer diameter
+   */
   public double getOuterDiameter() {
     return outerDiameter;
   }
 
+  /**
+   * Update quantity
+   * @param int new quantity
+   */
   public void setQuantity(int newQuantity) {
     quantity = newQuantity;
   }
