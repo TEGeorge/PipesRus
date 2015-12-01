@@ -1,6 +1,6 @@
 /**
  * Implementation of abstract class Pipe
- * @author UP719079 & UP
+ * @author UP719079 & UP723503
  */
 import java.util.ArrayList;
 
