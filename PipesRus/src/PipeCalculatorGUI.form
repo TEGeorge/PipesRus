@@ -89,14 +89,10 @@
           <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="1" attributes="0">
-                  <Group type="102" attributes="0">
-                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                      <Component id="UpdateButton" min="-2" max="-2" attributes="0"/>
-                  </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <Component id="CancelButton" min="-2" pref="85" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
-                      <Component id="AddButton" min="-2" pref="85" max="-2" attributes="0"/>
+                      <Component id="UpdateButton" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
@@ -105,21 +101,21 @@
                   </Group>
                   <Component id="jPanel3" alignment="0" max="32767" attributes="0"/>
                   <Group type="102" alignment="0" attributes="0">
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jLabel1" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="ErrorTF" alignment="0" min="-2" pref="240" max="-2" attributes="0"/>
-                      </Group>
+                      <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                   </Group>
+                  <Component id="ErrorTF" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jPanel4" max="32767" attributes="0"/>
-                  <Group type="102" alignment="0" attributes="0">
-                      <Component id="RemoveButton" min="-2" pref="85" max="-2" attributes="0"/>
+                  <Group type="102" attributes="0">
+                      <Component id="AddButton" min="-2" pref="85" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="RemoveButton" min="-2" pref="109" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
                       <Component id="FinishButton" min="-2" pref="85" max="-2" attributes="0"/>
                   </Group>
+                  <Component id="jPanel4" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -140,10 +136,7 @@
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="jPanel3" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="ErrorTF" alignment="3" min="-2" pref="34" max="-2" attributes="0"/>
-                          <Component id="UpdateButton" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
+                      <Component id="ErrorTF" min="-2" pref="34" max="-2" attributes="0"/>
                   </Group>
                   <Component id="jPanel4" max="32767" attributes="0"/>
               </Group>
@@ -153,6 +146,7 @@
                   <Component id="CancelButton" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="RemoveButton" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="FinishButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="UpdateButton" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="32767" attributes="0"/>
           </Group>
@@ -172,6 +166,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Finish"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="FinishButtonActionPerformed"/>
+      </Events>
     </Component>
     <Container class="javax.swing.JPanel" name="jPanel2">
       <Properties>
@@ -255,9 +252,6 @@
               </StringArray>
             </Property>
           </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ColoursCBActionPerformed"/>
-          </Events>
         </Component>
       </SubComponents>
     </Container>
@@ -434,9 +428,6 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="&#xa3;"/>
           </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="TotalPipesCostTFActionPerformed"/>
-          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel13">
           <Properties>
@@ -479,6 +470,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Cancel"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="CancelButtonActionPerformed"/>
+      </Events>
     </Component>
     <Container class="javax.swing.JPanel" name="jPanel1">
       <Properties>
@@ -529,24 +523,20 @@
       <SubComponents>
         <Component class="javax.swing.JLabel" name="jLabel2">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Pipe Length(metres):"/>
+            <Property name="text" type="java.lang.String" value="Pipe Length (metres):"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="LengthTB">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Click to input length"/>
             <Property name="toolTipText" type="java.lang.String" value=""/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel3">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Pipe Outer Diameter (inches):"/>
+            <Property name="text" type="java.lang.String" value="Pipe Diameter (inches):"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="DiameterTB">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Click to input diameter"/>
-          </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel11">
           <Properties>
@@ -581,7 +571,7 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Tahoma" size="18" style="1"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Pipes&apos;R&apos;Us: Pipe Type and Cost Calculator"/>
+        <Property name="text" type="java.lang.String" value="Pipes&apos;R&apos;Us"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="UpdateButton">

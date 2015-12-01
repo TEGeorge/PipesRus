@@ -10,11 +10,11 @@ public class PipeI extends Pipe
   /**
    * Executes Pipe super constructor
    * This calls the valid method which can throw an exception
-   * @param   int plastic grade
-   * @param   int number of colours
-   * @param   boolean inner insulated
-   * @param   boolean reinforced
-   * @param   boolean chemical resistant
+   * @param   int plastic grade (valid: 1-3)
+   * @param   int number of colours (valid: 0)
+   * @param   boolean inner insulated (valid: false)
+   * @param   boolean outer reinforcement (valid: false)
+   * @param   boolean chemical resistant (valid: true/false)
    * @param   double pipe length
    * @param   double outer diameter
    */

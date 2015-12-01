@@ -10,11 +10,11 @@ public class PipeIII extends Pipe
   /**
    * Executes Pipe super constructor
    * This calls the valid method which can throw an exception
-   * @param   int plastic grade
-   * @param   int number of colours
-   * @param   boolean inner insulated
-   * @param   boolean reinforced
-   * @param   boolean chemical resistant
+   * @param   int plastic grade (valid: 2 - 5)
+   * @param   int number of colours (valid: 2)
+   * @param   boolean inner insulated (valid: false)
+   * @param   boolean outer reinforcement (valid: false)
+   * @param   boolean chemical resistant (valid: true/false)
    * @param   double pipe length
    * @param   double outer diameter
    */
@@ -31,7 +31,7 @@ public class PipeIII extends Pipe
    * if not an exception is thrown that must be caught when creating the object
    */
   protected void valid() throws IllegalArgumentException{
-    if (insulated || reinforced || colours == 2 || plastic > 1 || plastic < 6)
+    if (insulated || reinforced || colours != 2 || plastic < 2 || plastic > 5)
     {
       throw new IllegalArgumentException();
     }

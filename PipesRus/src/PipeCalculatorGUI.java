@@ -117,6 +117,11 @@ public class PipeCalculatorGUI extends javax.swing.JFrame {
         });
 
         FinishButton.setText("Finish");
+        FinishButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                FinishButtonActionPerformed(evt);
+            }
+        });
 
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
@@ -131,11 +136,6 @@ public class PipeCalculatorGUI extends javax.swing.JFrame {
         jLabel5.setText("Colours:");
 
         ColoursCB.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "None", "1", "2" }));
-        ColoursCB.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ColoursCBActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -240,11 +240,6 @@ public class PipeCalculatorGUI extends javax.swing.JFrame {
         jLabel12.setText("Order list:");
 
         TotalPipesCostTF.setText("£");
-        TotalPipesCostTF.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                TotalPipesCostTFActionPerformed(evt);
-            }
-        });
 
         jLabel13.setText("Total Cost:");
 
@@ -297,17 +292,19 @@ public class PipeCalculatorGUI extends javax.swing.JFrame {
         );
 
         CancelButton.setText("Cancel");
+        CancelButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CancelButtonActionPerformed(evt);
+            }
+        });
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        jLabel2.setText("Pipe Length(metres):");
+        jLabel2.setText("Pipe Length (metres):");
 
-        LengthTB.setText("Click to input length");
         LengthTB.setToolTipText("");
 
-        jLabel3.setText("Pipe Outer Diameter (inches):");
-
-        DiameterTB.setText("Click to input diameter");
+        jLabel3.setText("Pipe Diameter (inches):");
 
         jLabel11.setText("Plastic Grade:");
 
@@ -354,7 +351,7 @@ public class PipeCalculatorGUI extends javax.swing.JFrame {
         });
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jLabel1.setText("Pipes'R'Us: Pipe Type and Cost Calculator");
+        jLabel1.setText("Pipes'R'Us");
 
         UpdateButton.setText("Calculate Cost");
         UpdateButton.addActionListener(new java.awt.event.ActionListener() {
@@ -373,30 +370,28 @@ public class PipeCalculatorGUI extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(UpdateButton))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addComponent(CancelButton, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(AddButton, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(UpdateButton))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(ErrorTF, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addComponent(jLabel1)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(ErrorTF, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(RemoveButton, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(AddButton, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(RemoveButton, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(FinishButton, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(FinishButton, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -413,16 +408,15 @@ public class PipeCalculatorGUI extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(ErrorTF, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(UpdateButton)))
+                        .addComponent(ErrorTF, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(AddButton)
                     .addComponent(CancelButton)
                     .addComponent(RemoveButton)
-                    .addComponent(FinishButton))
+                    .addComponent(FinishButton)
+                    .addComponent(UpdateButton))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -465,13 +459,13 @@ public class PipeCalculatorGUI extends javax.swing.JFrame {
         updateOrderTable();
     }//GEN-LAST:event_RemoveButtonActionPerformed
 
-    private void ColoursCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ColoursCBActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_ColoursCBActionPerformed
+    private void CancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelButtonActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_CancelButtonActionPerformed
 
-    private void TotalPipesCostTFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TotalPipesCostTFActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_TotalPipesCostTFActionPerformed
+    private void FinishButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FinishButtonActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_FinishButtonActionPerformed
 
     /**
      * Performs validation on length
@@ -484,7 +478,7 @@ public class PipeCalculatorGUI extends javax.swing.JFrame {
           length = Double.parseDouble(LengthTB.getText());
       }
       catch (NumberFormatException error) {
-          ErrorTF.setText("Error: Pipe Length Invalid");
+          ErrorTF.setText("Error: Only enter numbers for Pipe Length");
           return null;
       }
       try {
@@ -499,6 +493,7 @@ public class PipeCalculatorGUI extends javax.swing.JFrame {
 
     /**
      * Performs validation on diameter
+     * Must be between 1 and 20
      * @return Double if valid, NULL if invalid
      */
     private Double validDiameter()
@@ -508,14 +503,14 @@ public class PipeCalculatorGUI extends javax.swing.JFrame {
           diameter = Double.parseDouble(DiameterTB.getText());
       }
       catch (NumberFormatException error) {
-          ErrorTF.setText("Error: Pipe Diameter Invalid");
+          ErrorTF.setText("Error: Only enter numbers For Pipe Diameter");
           return null;
       }
       try {
-          if (!(diameter >= 2 && diameter <= 20)) { throw new IllegalArgumentException(); }
+          if (!(diameter >= 1 && diameter <= 20)) { throw new IllegalArgumentException(); }
       }
       catch (IllegalArgumentException error) {
-          ErrorTF.setText("Error: Pipe Diameter must be between 2 and 20 Inches");
+          ErrorTF.setText("Error: Pipe Diameter must be between 1 and 20 Inches");
           return null;
       }
       return diameter;
