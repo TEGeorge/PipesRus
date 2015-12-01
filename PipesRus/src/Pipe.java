@@ -73,12 +73,25 @@ public abstract class Pipe{
   public double cost()
   {
     double cost = getVolume(); //cost per cubic inch of plastic
-    if(plastic==1) {cost = cost * 0.3;} // *******CHANGE TO SWITCH AND CASE******//
-    else if(plastic==2) {cost*=0.32;}
-    else if(plastic==3) {cost*=0.35;}
-    else if(plastic==4) {cost*=0.40;}
-    else if(plastic==5) {cost*=0.36;}
+    switch (plastic) {
+      case 1:
+        cost *= 0.3;
+        break;
+      case 2:
+        cost *= 0.32;
+        break;
+      case 3:
+        cost *= 0.35;
+        break;
+      case 4:
+        cost *= 0.40;
+        break;
+      case 5:
+        cost *= 0.36;
+        break;
+    }
     double baseCost = cost;
+    //Extra costs
     if(colours==1) { cost += baseCost*0.12; }
     else if(colours==2) { cost += baseCost*0.17; }
     if(insulated) { cost += baseCost*0.14; }
