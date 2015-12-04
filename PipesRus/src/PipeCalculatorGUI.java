@@ -1,6 +1,6 @@
 /**
  * This class handles all GUI elements, validation and order managment
- * @author UP719079 & UP
+ * @author UP719079 & UP723503
  */
 import java.lang.*;
 import java.util.ArrayList;
@@ -108,6 +108,7 @@ public class PipeCalculatorGUI extends javax.swing.JFrame {
         jScrollPane2.setViewportView(jTable1);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         RemoveButton.setText("Remove");
         RemoveButton.addActionListener(new java.awt.event.ActionListener() {
@@ -439,7 +440,7 @@ public class PipeCalculatorGUI extends javax.swing.JFrame {
     /**
      * The Update GUI button, executed on press
      * Attempts to create a new pipe
-     * @param evt [description]
+     * @param evt executes on press
      */
     private void UpdateButtonActionPerformed(java.awt.event.ActionEvent evt)
     {//GEN-FIRST:event_UpdateButtonActionPerformed
@@ -449,7 +450,7 @@ public class PipeCalculatorGUI extends javax.swing.JFrame {
     /**
      * The Remove GUI Button, executed on press
      * Removes the selected Pipe from table and orders
-     * @param evt [description]
+     * @param evt executes on press
      */
     private void RemoveButtonActionPerformed(java.awt.event.ActionEvent evt)
     {//GEN-FIRST:event_RemoveButtonActionPerformed
@@ -459,10 +460,18 @@ public class PipeCalculatorGUI extends javax.swing.JFrame {
         updateOrderTable();
     }//GEN-LAST:event_RemoveButtonActionPerformed
 
+    /**
+     * Closes the program
+     * @param evt executes on press
+     */
     private void CancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelButtonActionPerformed
         System.exit(0);
     }//GEN-LAST:event_CancelButtonActionPerformed
 
+    /**
+     * Closes the program
+     * @param evt executes on press
+     */
     private void FinishButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FinishButtonActionPerformed
         System.exit(0);
     }//GEN-LAST:event_FinishButtonActionPerformed
@@ -493,7 +502,7 @@ public class PipeCalculatorGUI extends javax.swing.JFrame {
 
     /**
      * Performs validation on diameter
-     * Must be between 1 and 20
+     * Must be between 1 and 20 and a valid Double
      * @return Double if valid, NULL if invalid
      */
     private Double validDiameter()
@@ -507,7 +516,8 @@ public class PipeCalculatorGUI extends javax.swing.JFrame {
           return null;
       }
       try {
-          if (!(diameter >= 1 && diameter <= 20)) { throw new IllegalArgumentException(); }
+          if (!(diameter >= 1 && diameter <= 20))
+          { throw new IllegalArgumentException(); }
       }
       catch (IllegalArgumentException error) {
           ErrorTF.setText("Error: Pipe Diameter must be between 1 and 20 Inches");

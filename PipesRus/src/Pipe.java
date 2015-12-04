@@ -1,6 +1,6 @@
 /**
  * Abstract class Pipe
- * @author UP719079 & UP
+ * @author UP719079 & UP723503
  */
 
 import java.util.ArrayList;
@@ -87,7 +87,7 @@ public abstract class Pipe{
         cost *= 0.40;
         break;
       case 5:
-        cost *= 0.36;
+        cost *= 0.46;
         break;
     }
     double baseCost = cost;
